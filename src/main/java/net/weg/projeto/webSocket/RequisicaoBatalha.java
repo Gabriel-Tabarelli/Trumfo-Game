@@ -10,4 +10,8 @@ public class RequisicaoBatalha {
 
     private Jogador jogador;
 
+    public String requesicao() {
+        return "O jogador " + jogador.getNome() + " quer batalhar com você!";
+    }
+
 }
