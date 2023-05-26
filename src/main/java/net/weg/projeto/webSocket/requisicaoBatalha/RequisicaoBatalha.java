@@ -1,4 +1,4 @@
-package net.weg.projeto.webSocket;
+package net.weg.projeto.webSocket.requisicaoBatalha;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

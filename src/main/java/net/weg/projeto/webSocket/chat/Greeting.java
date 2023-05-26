@@ -1,4 +1,4 @@
-package net.weg.projeto.webSocket;
+package net.weg.projeto.webSocket.chat;
 
 public class Greeting {
 

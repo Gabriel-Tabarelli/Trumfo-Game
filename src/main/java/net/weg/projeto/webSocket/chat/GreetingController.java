@@ -1,4 +1,4 @@
-package net.weg.projeto.webSocket;
+package net.weg.projeto.webSocket.chat;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
