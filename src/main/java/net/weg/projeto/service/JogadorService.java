@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import net.weg.projeto.model.entity.Carta;
 import net.weg.projeto.model.entity.Jogador;
 import net.weg.projeto.repository.JogadorRepository;
+import net.weg.projeto.security.model.JogadorSecurity;
+import net.weg.projeto.security.repository.JogadorSecurityRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JogadorService {
 
-    private JogadorRepository jogadorRepository;
+    private final JogadorRepository jogadorRepository;
+    private final JogadorSecurityRepository jogadorSecurityRepository;
 
     public Jogador create(Jogador jogador) {
-        return jogadorRepository.save(jogador);
+        Jogador jogadorSalvo = jogadorRepository.save(jogador);
+        jogadorSecurityRepository.save(new JogadorSecurity(jogadorSalvo));
+        return jogadorSalvo;
     }
 
     public List<Jogador> readAll() {

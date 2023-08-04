@@ -40,6 +40,7 @@ public class JogadorController {
 
     @GetMapping("/{nome}")
     public ResponseEntity<Jogador> readOne(@PathVariable String nome) {
+        System.out.println(nome);
         return ok(jogadorService.readOne(nome));
     }
 
