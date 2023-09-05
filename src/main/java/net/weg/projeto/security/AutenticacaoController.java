@@ -1,8 +1,11 @@
 package net.weg.projeto.security;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import net.weg.projeto.model.entity.Jogador;
+import net.weg.projeto.security.util.CookieUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,18 +27,18 @@ public class AutenticacaoController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody Login login,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) {
-        SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    public ResponseEntity<Void> login(
+            @RequestBody Login login,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
         UsernamePasswordAuthenticationToken token =
-            new UsernamePasswordAuthenticationToken(login.nome, login.senha);
+                new UsernamePasswordAuthenticationToken(login.nome, login.senha);
         Authentication authentication = authenticationManager.authenticate(token);
+
         if (authentication.isAuthenticated()) {
-            System.out.println(authentication.getPrincipal());
-            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            securityContext.setAuthentication(authentication);
-            securityContextRepository.saveContext(securityContext, request, response);
+            Cookie cookie = CookieUtil.gerarCookie((Jogador) authentication.getPrincipal());
+            response.addCookie(cookie);
             return ResponseEntity.ok().build();
         }
 
