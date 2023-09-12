@@ -24,13 +24,10 @@ public class Jogador {
     @ManyToMany
     private List<Carta> cartas;
 
-    private String senha;
-
     public Jogador(JogadorDTO jogadorDTO) {
         this.nome = jogadorDTO.getNome();
         this.pontos = jogadorDTO.getPontos();
         this.cartas = jogadorDTO.getCartas();
-        this.senha = new BCryptPasswordEncoder().encode(jogadorDTO.getSenha());
     }
 
 }

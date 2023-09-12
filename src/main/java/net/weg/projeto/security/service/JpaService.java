@@ -1,7 +1,6 @@
 package net.weg.projeto.security.service;
 
-import net.weg.projeto.repository.JogadorRepository;
-import net.weg.projeto.security.model.JogadorSecurity;
+import net.weg.projeto.security.repository.JogadorSecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class JpaService implements UserDetailsService {
 
-    private final JogadorRepository repository;
+    private final JogadorSecurityRepository repository;
 
     @Autowired
-    public JpaService(JogadorRepository repository) {
+    public JpaService(JogadorSecurityRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
-        return new JogadorSecurity(repository.findJogadorByNome(nome));
+        return repository.findByJogador_Nome(nome);
     }
 
 }

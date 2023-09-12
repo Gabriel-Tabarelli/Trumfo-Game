@@ -29,7 +29,7 @@ public class JogadorController {
     @PostMapping
     public ResponseEntity<Jogador> create(@RequestBody @Valid JogadorDTO jogadorDTO) {
         Jogador jogador = new Jogador(jogadorDTO);
-        return ok(jogadorService.create(jogador));
+        return ok(jogadorService.create(jogador, jogadorDTO.getSenha()));
     }
 
     @GetMapping

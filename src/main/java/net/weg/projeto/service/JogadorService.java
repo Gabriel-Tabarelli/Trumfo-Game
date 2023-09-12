@@ -1,9 +1,12 @@
 package net.weg.projeto.service;
 
 import lombok.AllArgsConstructor;
+import net.weg.projeto.model.dto.JogadorDTO;
 import net.weg.projeto.model.entity.Carta;
 import net.weg.projeto.model.entity.Jogador;
 import net.weg.projeto.repository.JogadorRepository;
+import net.weg.projeto.security.model.JogadorSecurity;
+import net.weg.projeto.security.repository.JogadorSecurityRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,11 @@ import java.util.Optional;
 public class JogadorService {
 
     private final JogadorRepository jogadorRepository;
-
-    public Jogador create(Jogador jogador) {
-        return jogadorRepository.save(jogador);
+    private final JogadorSecurityRepository jogadorSecurityRepository;
+    public Jogador create(Jogador jogador, String senha) {
+        Jogador j = jogadorRepository.save(jogador);
+        jogadorSecurityRepository.save(new JogadorSecurity(jogador, senha));
+        return j;
     }
 
     public List<Jogador> readAll() {
@@ -32,7 +37,7 @@ public class JogadorService {
     }
 
     public Jogador edit(Jogador jogador) {
-        return create(jogador);
+        return jogadorRepository.save(jogador);
     }
 
     public String delete(String nome) {
