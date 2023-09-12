@@ -1,6 +1,7 @@
 package net.weg.projeto.security.service;
 
 import net.weg.projeto.repository.JogadorRepository;
+import net.weg.projeto.security.model.JogadorSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,7 @@ public class JpaService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
-        return repository.findJogadorByNome(nome);
+        return new JogadorSecurity(repository.findJogadorByNome(nome));
     }
 
 }

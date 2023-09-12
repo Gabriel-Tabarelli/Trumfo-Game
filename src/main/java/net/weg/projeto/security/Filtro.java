@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.weg.projeto.model.entity.Jogador;
+import net.weg.projeto.security.model.JogadorSecurity;
 import net.weg.projeto.security.util.CookieUtil;
 import net.weg.projeto.security.util.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ public class Filtro extends OncePerRequestFilter {
         if (rotaPrivada(request.getRequestURI())) {
             try {
                 String token = CookieUtil.getToken(request); // Obter o token do cookie
-                Jogador jogador = JWTUtil.getJogador(token); // Obter o usuário a partir do token
+                JogadorSecurity jogador = JWTUtil.getJogador(token); // Obter o usuário a partir do token
                 response.addCookie(CookieUtil.gerarCookie(jogador)); // Regenerar o cookie com a data de expiração atualizada}
                 Authentication authentication = new UsernamePasswordAuthenticationToken(jogador.getUsername(),
                         null, jogador.getAuthorities()); // Criar um objeto de autenticação

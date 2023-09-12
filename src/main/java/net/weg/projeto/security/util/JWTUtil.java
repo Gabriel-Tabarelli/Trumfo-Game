@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import net.weg.projeto.model.entity.Jogador;
 import net.weg.projeto.repository.JogadorRepository;
+import net.weg.projeto.security.model.JogadorSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class JWTUtil {
         JWTUtil.repository = repository;
     }
 
-    public static String gerarToken(Jogador jogador) {
+    public static String gerarToken(JogadorSecurity jogador) {
         return JWT.create()
                 .withIssuer("WEG") // Emissor do token
                 .withSubject(jogador.getUsername()) // "Nome" do token
@@ -29,9 +30,9 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(senhaForte)); // Criptografia
     }
 
-    public static Jogador getJogador(String token) {
+    public static JogadorSecurity getJogador(String token) {
         String username = JWT.decode(token).getSubject();
-        return repository.findJogadorByNome(username);
+        return new JogadorSecurity(repository.findJogadorByNome(username));
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Jogador implements UserDetails {
+public class Jogador {
 
     // Atributos para o jogo
     @Id
@@ -24,32 +24,13 @@ public class Jogador implements UserDetails {
     @ManyToMany
     private List<Carta> cartas;
 
-    // Atributos para o Spring Security
     private String senha;
-    private List<GrantedAuthority> authorities;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
 
     public Jogador(JogadorDTO jogadorDTO) {
         this.nome = jogadorDTO.getNome();
         this.pontos = jogadorDTO.getPontos();
         this.cartas = jogadorDTO.getCartas();
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
         this.senha = new BCryptPasswordEncoder().encode(jogadorDTO.getSenha());
     }
 
-    @Override
-    public String getPassword() {
-        return this.senha;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.nome;
-    }
 }

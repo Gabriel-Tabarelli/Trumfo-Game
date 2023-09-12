@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import net.weg.projeto.model.entity.Jogador;
+import net.weg.projeto.security.model.JogadorSecurity;
 import net.weg.projeto.security.util.CookieUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,7 +38,7 @@ public class AutenticacaoController {
         Authentication authentication = authenticationManager.authenticate(token);
 
         if (authentication.isAuthenticated()) {
-            Cookie cookie = CookieUtil.gerarCookie((Jogador) authentication.getPrincipal());
+            Cookie cookie = CookieUtil.gerarCookie((JogadorSecurity) authentication.getPrincipal());
             response.addCookie(cookie);
             return ResponseEntity.ok().build();
         }
