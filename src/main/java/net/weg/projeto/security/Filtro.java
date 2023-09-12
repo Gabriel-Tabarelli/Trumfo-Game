@@ -18,7 +18,7 @@ import java.util.List;
 public class Filtro extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(
+    protected void doFilterInternal( // Método para filtrar as requisições
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain
