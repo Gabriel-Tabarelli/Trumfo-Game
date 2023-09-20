@@ -1,6 +1,5 @@
 package net.weg.projeto.security;
 
-import lombok.AllArgsConstructor;
 import net.weg.projeto.security.service.JpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,14 +23,19 @@ import java.util.List;
 
 @EnableWebSecurity
 @Configuration
-@AllArgsConstructor
 public class Configuracao {
 
     private final JpaService jpaService;
 
     @Autowired
+    public Configuracao(JpaService jpaService) {
+        this.jpaService = jpaService;
+    }
+
+    @Autowired
     public void configurer(AuthenticationManagerBuilder amb) throws Exception {
-        // Configuração para buscar o usuário no banco de dados
+        // Qual é a service que vai buscar o usuário no banco de dados
+        // Qual é o encoder que vai ser usado para comparar a senha
         amb.userDetailsService(jpaService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
@@ -47,7 +51,7 @@ public class Configuracao {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.cors(cors -> corsConfigurationSource());
         http.addFilterBefore(new Filtro(), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro de autenticação
-        return http.build();
+        return http.build(); 
     }
 
     @Bean
